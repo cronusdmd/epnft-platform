@@ -9,26 +9,6 @@ export default function Mint(props) {
 	const [assetURIs, setAssetURIs] = useState([]);
 
 	// Populate the assetURIs variable with tokens that are not yet minted.
-	const CheckAssetURIs = async () => {
-		let uris = [];
-
-		let amount = await props.contract.methods.balanceOf(props.address).call();
-		console.log(amount);
-		let jsondata = await props.contract.methods.tokenURI(1).call();
-			console.log("json: ", jsondata);
-		// For this demo there are only 4 assets, named sequentially. 
-		// for(let idx = 1; idx <= 4; idx++ ){
-		// 	let uri = '/token_data/exobit_'+idx+'.json';
-		// 	// Call the contract and get the id of the uri. If the uri doesn't belong to a token, it will return 0.
-		// 	let tokenId = await props.contract.methods.tokenByUri(uri).call();
-		// 	// The token ID comes in as a string. "0" means that uri is not associated with a token.
-		// 	if(tokenId === "0") uris.push(uri);
-		// }
-
-		// // Update the list of available asset URIs
-		// if(uris.length) setAssetURIs([...uris]);
-	}
-
 	// Handle the click to mint
 	const DoMint = async (tokenURI) => {
 		console.log('minting: ', tokenURI);
@@ -80,7 +60,7 @@ export default function Mint(props) {
 	return (
 		<div className="page mint">
 			<h2>Please mint your NFTs by clicking mint buttion</h2>
-			<button class="mint" onClick={CheckAssetURIs}>Mint NFT</button>
+			<button class="mint" onClick={DoMint}>Mint NFT</button>
 			{assetURIs.map((uri, idx) => (
 					<div onClick={() => DoMint(uri)} key={idx}>
 						<img src={uri.replace('.json', '.png')} alt={'exobit_'+(idx+1)} />
