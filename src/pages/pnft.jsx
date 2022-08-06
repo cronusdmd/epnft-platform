@@ -6,10 +6,14 @@ export default function PNFT(props) {
 	const [tokenURIs, setTokenURIs] = useState([]);
 
 	// Populate userTokens with an array of token IDs belonging to the curent wallet address.
+	let tokensID = [];
 	const GetUserTokens = async () => {
 		if(!props || !props.contract) return;
-		const userTokens = await props.contract.methods.tokensOfOwner(props.address).call();
-		setUserTokens(userTokens);
+		const balance = await props.contract.methods.balanceOf(props.address).call();
+		for (let i = 0; i < balance; i ++) {
+			tokensID[i] = await props.contract.methods.tokenOfOwnerByIndex(props.address, i).call();
+		}
+		setUserTokens(tokensID);
 	};
 
 	// Populate the setTokenURIs variable with token URIs belonging to the curent wallet address.
@@ -56,11 +60,12 @@ export default function PNFT(props) {
 				props.network == 80001 ?
 				(<h2>NFTs</h2>):(<h2>You are not on Mumbai, you should change the network on your wallet to see your NFTs on Mumbai</h2>)
 			}
-			{tokenURIs.map((uri, idx) => (
+
+			{props.network== 80001 ? (tokenURIs.map((uri, idx) => (
 				<div key={idx}>
 					<img src={uri} alt={'token '+idx} />
 				</div>
-			))}
+			))):(<div></div>)}
 		</div>
 	);
 }

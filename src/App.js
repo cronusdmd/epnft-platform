@@ -72,7 +72,7 @@ function App() {
 							<PNFT contract={web3props.contract} address={walletAddress} network={netID}></PNFT>
 						</Route>
 						<Route path="/enft">
-							<ENFT contract={web3props.contract} network={netID}></ENFT>
+							<ENFT contract={web3props.contract} address={walletAddress} network={netID}></ENFT>
 						</Route>
 						<Route path="/mint">
 							<Mint contract={web3props.contract} address={walletAddress}></Mint>
